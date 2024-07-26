@@ -12,7 +12,7 @@ jobs:
         with:
           root_file: unixkurs.tex
       - name: Upload PDF
-      - uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4
         with:
           name: Unixkurs
           path: unixkurs.pdf
