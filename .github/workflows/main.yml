@@ -1,9 +1,13 @@
-name: LaTeX compilation
-on: [push]
+name: Test GitHub Action
+on: [push, pull_request]
 jobs:
-  build_latex:
+  test:
     runs-on: ubuntu-latest
     steps:
-      uses: dante-ev/latex-action@2021-A
-          
-        
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+
+      - name: Compile LaTeX document
+        uses: Sakul6499/GitHub-Action-LaTeX@v0.0.1
+        with:
+          latex_main_file: unixkurs.tex
