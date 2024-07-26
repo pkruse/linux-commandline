@@ -1,0 +1,2204 @@
+\documentclass[titlepage,a4paper]{article}
+\usepackage[left=3cm]{geometry}
+\usepackage{colortbl}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\fancyhead{}
+\chead{GNU/Linux - Einführung in die Kommandozeile}
+
+%TODO: info
+%TODO: svn, git
+%TODO: lyx, latex
+%TODO: dircmp
+%TODO: env
+
+\begin{document}
+\hypersetup{pageanchor=false}
+\title{GNU/Linux\\Einführung in die Kommandozeile}
+\author{Peter Kruse\thanks{Peter.Kruse@lbbw.de}\\LBBW}
+\maketitle
+
+\thispagestyle{empty}
+\vspace*{\fill}
+\emph{I worry about my child and the Internet all the time, even though
+she's too young to have logged on yet.  Here's what I worry about. I
+worry that 10 or 15 years from now, she will come to me and say
+'Daddy, where were you when they took freedom of the press away from
+the Internet?'}
+
+\rightline{Mike Godwin, Electronic Frontier Foundation}
+\vspace*{\fill}
+
+\begin{abstract}
+Dieses Dokument richtet sich an
+Anwender, die schonmal mit der Linux-Kom\-man\-do\-zei\-le in Be\-rüh\-rung gekommen sind,
+dort vielleicht mal einen Befehl eingegeben haben, und wissen,
+was Verzeichnisse und Dateien sind aber mehr erfahren möchten.
+Es wird ein Überblick über das System gegeben und soll die
+ersten Schritte erleichtern.  Der große Bereich der Systemadministration wird
+nicht betrachtet.  Allerdings wird der Einsatz der wichtigsten Unix Werkzeuge
+teilweise auch im Detail beleuchtet.  Das Ziel ist es auch, Neugierde,
+Forscherdrang und Experimentierfreude zu wecken und die Begeisterung für
+dieses System weiterzugeben. 
+\end{abstract}
+
+\hypersetup{pageanchor=true}
+\tableofcontents
+\newpage
+
+\pagestyle{fancy}
+\section{Geschichte}
+
+Hier ein paar Meilensteine und Ereignisse in der Geschichte von GNU/Linux:
+
+\begin{description}
+\setlength{\itemsep}{0pt}
+\item[1969] Ken Thompson implementiert UNICS (Uniplexed Operating and Computing System)
+%% The Humble Programmer www.cs.utexas.edu/~EWD/transcriptions/EWD03xx/EWD340.html
+\item[1973] Dennis Ritchie entwickelt Programmiersprache \emph{C} -$>$ Kernel
+\item[1974] Unix-Lizenz für Universitäten (inklusive Quellcode)
+\item[1978] SVR4 (System V) $<$-$>$ BSD (Berkley Software Distribution)
+\item[1985] Richard Stallman gründet die Free Software Foundation
+\item[1986] Donald Knuth stellt das Textsatzsystem \TeX\ fertig
+\item[1989] Tim Berners-Lee entwirft das WWW
+\item[1991] Linus Torvalds stellt die erste Version 0.01 von Linux zur Verfügung
+\item[1993] Marc Andreessen veröffentlicht den Browser Mosaic\footnote{siehe Wikipedia: Browserkrieg}
+\item[1996] Matthias Ettrich\footnote{geb. 14.6.1972 in Bietigheim, erhält 2009 den Bundesverdienstorden} initiiert das KDE-Projekt
+\item[1997] Eric S. Raymond verfasst den Essay \emph{The Cathedral and the Bazaar}\footnote{\url{http://www.catb.org/esr/writings/cathedral-bazaar/cathedral-bazaar/}}
+\item[1998] Jamie Zawinski und Brendan Eich gründen das Mozilla-Projekt
+\item[1998] Halloween Dokumente
+\item[1999] Strategische Allianz zwischen Corel, KDE und Debian
+\item[2000] Santa Cruz Operation (SCO) verkauft ihr Unix-Geschäft an Caldera
+\item[2001] Single UNIX(R) Specification Version 3, POSIX:2001
+\item[2002] Veröffentlichung des Browsers Firefox
+\item[2003] Carsten Dominik erschafft Org Mode
+\item[2004] Mark Shuttleworth gründet Canonical (Ubuntu)
+\item[2005] Linus Torvalds beginnt mit der Entwicklung von git
+\item[2006] Sun Microsystems setzt die Java-Plattform unter die GPL
+\item[2007] Gründung von GitHub, Inc.
+\item[2008] Das erste Mobiltelefon mit \emph{Android} kommt auf den Markt
+\item[2009] Microsoft trägt ca. 20.000 Zeilen Code zum Linux-Kernel bei\footnote{Und die Hölle gefriert}
+\item[2010] Lennart Poettering und Kay Sievers veröffentlichen \emph{systemd}
+\item[2011] Gründung des Qt-Projektes durch Nokia
+\item[2012] Linus Torvalds zeigt Nvidia seinen Stinkefinger\footnote{\url{https://www.heise.de/news/Torvalds-zeigt-Nvidia-den-Stinkefinger-1619616.html}}
+\item[2013] EU veruteilt Microsoft zu einer Strafe über 500 mio. Euro
+\item[2014] Oberste Gerichtshof in USA: Ideen sind nicht patentierbar
+\item[2015] Ian Murdock, Gründer des Debian-Projektes, stirbt mit 42 Jahren
+\item[2016] Microsoft wird Platinum-Mitglied der Linux-Foundation
+\item[2017] Alle 500 leistungsfähigsten Supercomputer der Welt laufen unter Linux
+\item[2018] EU-Kommission verurteilt Google zu einer Geldbuße von 4,34 Mrd. Euro
+\item[2018] Microsoft kauft GitHub
+\item[2018] IBM übernimmt Red Hat für 30 Mrd. Euro
+%% \item[2019] Richard Stallman - ``Are we facing surveillance like in China?''
+%% (Frankfurt, Germany) \url{https://www.fsf.org/events/rms-20190715-frankfurt}
+%% \url{http://ffsci.de/index.php?id=6}
+\item[2019] Richard Stallman tritt vom Präsidentenamt des FSF zurück
+\item[2019] Sir Tim Bernes-Lee: \url{https://contractfortheweb.org/}
+\item[2019] Project Gemini: \url{https://gemini.circumlunar.space/docs/faq.gmi}
+\item[2020] Purism fängt mit der Auslieferung des Librem 5 an
+\item[2021] Richard Stallman kehrt in das Präsidium des FSF zurück
+\item[2022] Veröffentlichung des Bildgenerators Stable-Diffusion
+\item[2023] EU-Datenschutzbehörde verurteilt Meta zu einer Strafe von 1,2 Mrd. Euro
+%% https://rms-support-letter.github.io/
+%% https://rms-open-letter.github.io/
+\end{description}
+\newpage
+
+\section{Anmelden am System}
+
+Login und Passwort werden von einer Administratorin zugewiesen und sind
+zwingend notwendig, um überhaupt etwas machen zu können.  Jede Benutzerin
+gehört zusätzlich einer oder mehreren Gruppen an.  Sie darf auf dem System
+auch nur das, was ihr erlaubt wird, insbesondere kann sie an Systemdateien
+ohne weiteres nichts ändern.  Einer Benutzer ID, nämlich \emph{root} ist alles
+erlaubt.
+
+Geben Sie nun Ihr Login Name und das dazugehörige Passwort ein.
+
+\begin{verbatim}
+login: lb87789
+Password:
+\end{verbatim}
+
+Das Passwort erscheint nicht, während Sie es tippen.
+
+\subsection{Die Shell - das Tor zur Unix Welt}
+\label{sec:shell}
+
+Nach erfolgreicher Authentifizierung präsentiert das System den sogenannten
+\emph{Prompt} und erwartet eine Eingabe:
+
+\begin{verbatim}
+$ _
+\end{verbatim}
+
+Das nun laufende Programm ist der \emph{Kommandozeileninterpreter} oder
+\emph{Shell}. 
+Unter Unix gibt es
+verschiedene, zum Beispiel die Bourne Shell (\textbf{sh}), die über
+verschiedene Unix Systeme eine einheitliche Schnittstelle bietet und daher für
+\emph{Shell Scripte} das geeignete Mittel bietet.
+Daneben gibt es die C-Shell (\textbf{csh}), die eine C ähnliche Syntax bietet
+und wegen ihrer 
+interaktiven Vorzüge gerne als \emph{Login Shell} benutzt wird.  Eine
+Erweiterung der C-Shell ist die \textbf{tcsh}, die ein sehr komfortables
+Arbeiten ermöglicht.  Weiterentwicklungen der Bourne Shell sind die Korn Shell
+und die Standard Shell unter Linux, die Bourne Again Shell (\textbf{bash}).
+In diesem Dokument wird von einer Bourne Again Shell ausgegangen und es ist
+die Empfehlung des Autors, wenn möglich die Bourne Again Shell als Login Shell
+zu benutzen.
+
+An dem Prompt können nun Befehle eingegeben werden, die von der Shell
+weiterinterpretiert und dann ausgeführt werden.
+
+\subsection{Und Los geht's!}
+\label{sec:begin}
+
+Nun können Sie anfangen, sich ein wenig umzuschauen:
+
+\begin{verbatim}
+$ pwd
+/home/lb87789
+$ _
+\end{verbatim}
+
+\textbf{pwd} (Print working directory) gibt das aktuelle Verzeichnis aus.
+Hier lautet es \emph{/home/lb87789}.  Im Gegensatz zu Windows sind Verzeichnisse
+getrennt durch einen Slash (/) und nicht durch einen Backslash
+($\backslash$).  Was für Windows-Benutzer ebenfalls auffällt, ist das Fehlen der
+Laufwerksangabe.  Unter Unix befinden sich alle Geräte unterhalb des
+Wurzelverzeichnisses.  Für den Benutzer ist zunächst nicht ersichtlich, auf
+welcher Festplatte bestimmte Dateien liegen, er greift nur über den Dateibaum
+auf diese Dateien zu.  Dadurch entfällt der eher umständliche
+Laufwerkswechsel.  Das trifft übrigens auch für Geräte wie USB-Sticks zu.
+
+Das erste Arbeitsverzeichnis nach der Authentifizierung ist das sogenannte
+\emph{Home-Verzeichnis}.  In diesem Verzeichnis darf die Benutzerin Dateien
+anlegen und löschen.  Ferner liegen hier Konfigurationsdateien, die
+persönliche Einstellungen für zum Beispiel Firefox oder die Shell enthalten.
+Auch gelesene Mail wird hier abgespeichert.
+
+\subsection{Was passiert mit meiner Kommandozeile?}
+\label{sec:commandline}
+
+\subsubsection*{Ein gelungenes Kommando}
+
+Die allgemeine Syntax eines Befehls:
+
+\begin{verbatim}
+<Befehlsname> [Optionen ...] Argumente ...
+\end{verbatim}
+
+Optionen (oder Schalter) werden eingeleitet durch ein - (Windows Benutzer sind
+vielleicht gewohnt Optionen mit einem Slash (/) zu beginnen wie in \emph{dir
+  /p}).  Betrachten wir als Beispiel den auch unter Windows bekannten Befehl
+\textbf{echo}: 
+
+\begin{verbatim}
+$ echo hello, world
+hello, world
+$ _
+\end{verbatim}
+
+Die Shell akzeptiert die Zeile, trennt sie an Leerzeichen und übergibt dem
+Programm \textbf{echo} die Argumente \emph{hello,} und \emph{world}, welches
+als Antwort diese zwei Worte wieder ausgibt.  Was bedeutet es \emph{an
+  Leerzeichen trennen}?  Betrachten wir folgende Änderung:
+
+\begin{verbatim}
+$ echo hello,                world
+hello, world
+$ _
+\end{verbatim}
+
+Die weiteren Leerzeichen werden ignoriert!  Sollen diese Leerzeichen erhalten
+bleiben, müssen wir dafür sorgen, dass die Shell das Argument nicht trennt
+sondern als Ganzes an das Programm weitergibt:
+
+\begin{verbatim}
+$ echo 'hello,                world'
+hello,                world
+$ _
+\end{verbatim}
+
+Hier ist zu beachten, dass die Hochkommata nicht mit ausgegeben werden, weil
+sie ja schon von der Shell interpretiert werden.  In der Sprache der Shell
+haben wir aus zwei Worten ein Wort gemacht.  Das ist dann zu beachten, wenn
+einem Programm ein Argument übergeben werden soll, das ein oder mehrere
+Leerzeichen enthält.
+
+\subsection{dir heisst ls}
+\label{sec:ls}
+
+Unter Windows zeigt der Befehl \emph{dir} Verzeichnisse und Dateien an.  Unter
+Unix lautet der Befehl \textbf{ls}:
+
+\begin{verbatim}
+$ ls
+$ _
+\end{verbatim}
+
+Wenn Ihr Account gerade neu eingerichtet wurde, dann befinden sich vielleicht
+noch keine Verzeichnisse im Homeverzeichnis, daher ist die Ausgabe leer.
+Es gibt aber versteckte Dateien, die mit einem Punkt (.) anfangen.
+
+\begin{verbatim}
+$ ls -a
+.   ..   .bashrc   .bash_profile
+$ _
+\end{verbatim}
+
+\textbf{ls} formatiert den output in einer übersichtlichen Weise.  Hier
+tauchen nun zwei weitere Einträge auf: . und ..  Der Punkt steht für das
+aktuelle Verzeichnis und .. steht für das Verzeichnis darüber.
+Für die nächsten Schritte legen wir am Besten ein separates Verzeichnis an
+und wechseln hinein:
+
+\begin{verbatim}
+$ mkdir test
+$ cd test
+$ pwd
+/home/lb87789/test
+$ _
+\end{verbatim}
+
+Für die folgenden Demonstrationen benötigen wir noch ein paar Dateien.
+Mithilfe des Befehls \textbf{touch} können einfach leere Dateien angelegt werden.
+
+\begin{verbatim}
+$ touch abc abcd efgh ijkl mnopq rstuvwxyz .hidden
+$ _
+\end{verbatim}
+
+Die Shell ersetzt bestimmte \emph{Sonderzeichen} mit Dateinamen:
+
+\begin{verbatim}
+$ echo *
+abc abcd efgh ijkl mnopq rstuvwxyz
+$ echo .*
+. .. .hidden
+$ echo '*'
+*
+$ _
+\end{verbatim}
+
+Das Sternchen * wird ersetzt durch alle Dateinamen, die nicht mit einem Punkt
+beginnen und an \textbf{echo} weitergegeben.  Weitere Sonderzeichen sind
+Fragezeichen, das für ein beliebiges Zeichen steht:
+
+\begin{verbatim}
+$ echo ????
+abcd efgh ijkl
+$ _
+\end{verbatim}
+
+und in eckigen Klammern angegebene Charakter:
+
+\begin{verbatim}
+$ echo [eir]*
+efgh ijkl rstuvwxyz
+$ _
+\end{verbatim}
+
+Das Pattern \emph{[eir]*} trifft auf alle Dateinamen zu, die mit e, i oder r anfangen.
+
+\subsection{Zurechtfinden im System}
+
+Nachdem nun das grundlegende Konzept eines Kommandos erläutert wurde, können
+wir nun anfangen das System zu erforschen.
+
+\subsubsection*{cd - change directory}
+\label{sec:cd}
+
+Mit dem Befehl \textbf{cd} wird das aktuelle Verzeichnis gewechselt.  Die
+Syntax lautet:
+
+\begin{verbatim}
+cd [Verzeichnis]
+\end{verbatim}
+
+es erwartet also höchstens ein Argument, nämlich einen Verzeichnisnamen.  Wird
+kein Argument mitgegeben, wird in das home-Verzeichnis des Benutzers
+gewechselt.  Die zwei Befehle \textbf{cd} und \textbf{ls} erlauben nun das
+Unix System von ihrer Verzeichnisstruktur her zu untersuchen.  Natürlich
+bietet hier ein Dateimanager z.B. unter KDE eine wesentlich übersichtlichere
+Möglichkeit.
+
+\subsubsection*{Dateistruktur}
+
+\begin{verbatim}
+/etc               - Konfigurationsdateien
+/bin -> /usr/bin
+/dev               - device Verzeichnis
+/home              - Home Verzeichnisse
+     /lb87789         - Home Verzeichnis des Benutzers lb87789
+          /bin     - privates Programmverzeichnis
+/lib -> /usr/lib
+/lib64 -> /usr/lib64
+/opt               - Third Party Software
+/proc              - Informationen über Prozesse
+/root              - Home Verzeichnis des root Users
+/run               - runtime Daten
+/sbin -> /usr/sbin
+/sys               - Kernel-Informationen
+/tmp               - temporäre Dateien
+/usr
+    /bin           - Benutzerprogramme
+    /include       - C header Dateien
+    /local         - lokal installierte Software
+          /lib
+          /bin
+          /man     - manual Seiten
+    /doc           - weitere Dokumentation
+    /games         - Spiele
+    /lib           - Bibliotheken
+    /lib64         - Bibliotheken (64 Bit)
+    /sbin          - Programme für den Systemadministrator
+    /share         - Dateien, für verschiedenen Programme
+          /man     - manual Seiten
+/var
+    /spool
+          /cups    - Druckaufträge
+          /mail    - eingehende Mails
+          /at      - später auszuführende Befehle
+    /tmp           - temporäre Dateien
+\end{verbatim}
+
+Besonders hervorzuheben ist das Verzeichnis \emph{/tmp}.  In diesem Verzeichnis darf
+jeder Benutzer Dateien anlegen und auch wieder löschen (allerdings nur eigene).
+Benötigt ein Programm
+also im laufenden Betrieb einen Zwischenspeicher, wird es dieses Verzeichnis
+benutzen.
+Auch das Verzeichnis \emph{/run} ist besonders, da es erst sehr spät und kontrovers
+in den Filesystem Standard übernommen wurde.\footnote{\url{https://lists.fedoraproject.org/pipermail/devel/2011-March/150031.html}}
+Dateien, die zu einem Programm gehören, verteilen sich in dieser Struktur.
+Idealerweise:
+
+\begin{verbatim}
+Konfigurationsdateien -> etc
+ausführbares Binary   -> bin
+Libraries             -> lib
+Manpages              -> man
+weitere Dokumentation -> doc
+\end{verbatim}
+
+Zur Auffindung von ausührbaren Programmen gibt es die PATH Variable.
+Was bedeutet das?  Gibt eine Benutzerin folgenden Befehl ein,
+
+\begin{verbatim}
+$ firefox
+_
+\end{verbatim}
+
+sucht die Shell die in der PATH Variablen angegebenen Verzeichnisse nach dem
+Programm \textbf{firefox} ab, und führt dieses unter Angabe des kompletten
+Pfades aus.  Kann das Programm nicht gefunden werden, gibt es die
+Fehlermeldung \emph{command not found} aus.  Um sich den Wert der Variablen
+PATH anzeigen zu lassen, wird ein Dollarzeichen (\$) vorangestellt:
+
+\begin{verbatim}
+$ echo $PATH
+/usr/local/bin:/usr/bin:/bin:/usr/games
+$ _
+\end{verbatim}
+
+Der Pfad besteht in diesem Beispiel aus vier Verzeichnissen, die durch
+Doppelpunkte getrennt sind.  Unter Windows würden sie durch Semikolon getrennt.
+
+\section{Hilfe}
+
+Dokumentation über Befehle kann über unterschiedliche Wege angezeigt werden,
+je nachdem um welchen Befehlstyp es sich handelt und wie detailliert 
+die Hilfe ausfallen soll.  Den Typ eines Befehls kann über \textbf{type}
+herausgefunden werden.
+
+\subsection{Shell}
+
+\begin{verbatim}
+$ type pwd
+pwd is a shell builtin
+$ _
+\end{verbatim}
+
+\textbf{pwd} ist also in die Shell eingebaut.  Sie kann mittels
+des Befehls \textbf{help} darüber Auskunft geben:
+
+\begin{verbatim}
+$ type help
+help is a shell builtin
+$ help pwd
+pwd: pwd [-LP]
+    Print the name of the current working directory.
+    
+    Options:
+      -L	print the value of $PWD if it names the current working
+    	directory
+      -P	print the physical directory, without any symbolic links
+    
+    By default, `pwd' behaves as if `-L' were specified.
+    
+    Exit Status:
+    Returns 0 unless an invalid option is given or the current directory
+    cannot be read.
+$ _
+\end{verbatim}
+
+\subsection{Programmhilfe}
+
+Ist der Befehl ein eigenes Programm, gibt \textbf{type} den Pfad an:
+
+\begin{verbatim}
+$ type mkdir
+mkdir is /bin/mkdir
+$ _
+\end{verbatim}
+
+Viele Programme unterstützen die Option \emph{--help} und geben damit
+eine kurze Übersicht aus:
+
+\begin{verbatim}
+$ mkdir --help
+Usage: mkdir [OPTION]... DIRECTORY...
+Create the DIRECTORY(ies), if they do not already exist.
+
+Mandatory arguments to long options are mandatory for short options too.
+  -m, --mode=MODE   set file mode (as in chmod), not a=rwx - umask
+  -p, --parents     no error if existing, make parent directories as needed
+  -v, --verbose     print a message for each created directory
+  -Z, --context=CTX  set the SELinux security context of each created
+                      directory to CTX
+      --help     display this help and exit
+      --version  output version information and exit
+
+Report mkdir bugs to bug-coreutils@gnu.org
+GNU coreutils home page: <http://www.gnu.org/software/coreutils/>
+General help using GNU software: <http://www.gnu.org/gethelp/>
+For complete documentation, run: info coreutils 'mkdir invocation'
+$ _
+\end{verbatim}
+
+\subsection{Manpages}
+
+Möchten Sie mehr über einen Befehl erfahren, hilft das Kommando \textbf{man}:
+
+\begin{verbatim}
+man <Befehlsname>
+\end{verbatim}
+
+zeigt die zugehörige \emph{manpage} des Befehls.  Zur Anzeige wird der Pager
+benutzt.  Möchten Sie die nächste Seite sehen, tippen Sie die Leertaste.
+Beenden Sie die Anzeige vorzeitig durch Eingabe von \textbf{q}.  Neben
+Befehlen gibt es auch Dokumentation in Form von Manpages für Folgendes:
+
+\begin{enumerate}
+\setlength{\itemsep}{0pt}
+\item User commands
+\item System calls
+\item C library routines
+\item Device drivers and network interfaces
+\item File formats
+\item Games and demos
+\item Misc. (ASCII, macro packages, tables, etc)
+\item Commands for system administration
+\item Locally installed manual pages. (i.e. X11)
+\end{enumerate}
+
+Manpages sind also unterteilt in verschiedene Sektionen.  Möchten Sie wissen
+welche Befehle Ihnen zur Verfügung stehen schauen Sie sich den Inhalt der im
+Pfad angegebenen Verzeichnisse an (Erschrecken Sie nicht, die Anzahl der
+Befehle kann leicht über 1000 liegen).
+
+\section{Anpassen der Umgebung}
+
+\subsection{Start-Dateien}
+
+Wird die Shell nach der Login Prozedur gestartet, führt diese bestimmte
+Dateien aus, bevor es den Prompt präsentiert.  Dazu gehören /etc/profile und
+\textasciitilde/.bash\_profile (Die Tilde \textasciitilde steht für das Homeverzeichnis).
+Die Datei /etc/profile kann von der Benutzerin nicht geändert werden, da ihr
+die Schreibberechtigung fehlt.  In dieser Datei kann die Systemadministratorin
+Einstellungen vornehmen, die für jeden registrierten Benutzer gelten sollen.
+Persönliche Einstellungen werden in den Dateien \textasciitilde/.bash\_profile
+und \textasciitilde/.bashrc vorgenommen.   
+
+\subsection{Umgebungs- und Shell-Variablen}
+
+Umgebungsvariablen, wie PATH, bestimmen oder ändern das Verhalten einiger
+Programme.  Sie können zum Beispiel durch den Befehl env
+angezeigt werden.  Hier sind ein paar Beispiele:
+
+\begin{description}
+\setlength{\itemsep}{0pt}
+\item[PATH] Suchpfad für Programme
+\item[MANPATH] Suchpfad für manpages
+\item[CLASSPATH] Suchpfad für Java Klassen
+\item[PAGER] Programm zum seitenweise anzeigen von Output
+\item[HOME] Einstiegsverzeichnis
+\item[EDITOR] Programm zum editieren von Textdateien
+\item[PS1] Prompt
+\item[DISPLAY] Gibt an, wo grafische Programme angezeigt werden.
+\end{description}
+
+Setzen einer Umgebungsvariable: 
+
+\begin{verbatim}
+$ PAGER=less
+$ export PAGER
+$ _
+\end{verbatim}
+
+Was macht \textbf{export}?  Dieser Befehl markiert eine Variable als
+zugänglich für weitere Shells, die aufgerufen werden.  Dieses Konzept wird
+auch \emph{Vererbung genannt}.  Diese Kommandoabfolge zeigt das:
+
+\begin{verbatim}
+$ echo $a
+
+$ a=x
+$ echo $a
+x
+$ sh
+$ echo $a
+
+$ exit
+$ echo $a
+x
+$ export a
+$ sh
+$ echo $a
+x 
+$ _
+\end{verbatim}
+
+Der Befehl \textbf{sh} ruft eine neue \emph{Subshell} auf, in der die neu
+erzeugte Variable \emph{a} zunächst nicht zur Verfügung steht.  Vererbung
+funktioniert nur in einer Richtung:
+
+\begin{verbatim}
+$ echo $a
+
+$ sh
+$ echo $a
+
+$ a=x
+$ echo $a
+x
+$ export a
+$ exit
+$ echo $a
+
+$ _
+\end{verbatim}
+
+\section{Job Control}
+\label{sec:jobcontrol}
+
+Ein sehr wichtiges Feature der Shell in einer Multi-Tasking Umgebung ist
+\emph{Job Control}.  Betrachten Sie noch einmal den Aufruf von firefox:
+
+\begin{verbatim}
+$ firefox
+_
+\end{verbatim}
+
+Sie erhalten den Prompt nicht zurück!  Allerdings bietet Ihnen die Shell die
+Möglichkeit, den Prozess anzuhalten und den Prompt wieder zu erlangen, indem
+Sie Ctrl-Z drücken:
+
+\begin{verbatim}
+^Z
+[1]+ Stopped        firefox
+$ _
+\end{verbatim}
+
+Der Prozess firefox ist angehalten (Überprüfen Sie das, indem Sie zu
+dem Firefox Fenster wechseln, es reagiert nicht).  Möchten Sie die Shell und
+firefox parallel laufen lassen tippen Sie den Befehl \emph{bg} (für
+background) ein:
+
+\begin{verbatim}
+$ bg
+[1]+ firefox &
+$ _
+\end{verbatim}
+
+Nun wird firefox wieder reagieren und Sie können mit der Shell weiter
+arbeiten.  Dagegen gibt es aber auch die Möglichkeit einen Prozess wieder in
+den Vordergrund zu holen, durch den Befehl \emph{fg}:
+
+\begin{verbatim}
+$ fg
+_
+\end{verbatim}
+
+Firefox befindet sich wieder im Vordergrund, Sie können nun, um zum Beispiel
+firefox zu beenden, Ctrl-C drücken.  Sicherlich können Sie auch einen Prozess
+direkt in den Hintergrund schicken, indem Sie am Ende der Kommandozeile ein \&
+anfügen:
+
+\begin{verbatim}
+$ firefox &
+[1] 273
+$ _
+\end{verbatim}
+
+Die Shell antwortet mit der Angabe der Job Nummer und der Prozess ID.  Ebenso
+erhalten Sie eine Meldung, wenn ein Hintergrund Prozess sich beendet hat:
+
+\begin{verbatim}
+$ _
+[1]+  Done        firefox
+$ _
+\end{verbatim}
+
+\subsection{Prozesse}
+
+Jedes laufende Programm ist ein Prozess, der durch eine eindeutige
+\emph{Prozess-ID} gekennzeichnet ist.  Die momentan aktiven Prozesse werden
+durch das Kommando \textbf{ps} angezeigt.
+
+\begin{verbatim}
+$ ps auxc
+USER      PID %CPU %MEM    VSZ   RSS TTY   STAT START TIME COMMAND
+root        1  0.0  0.0  21456  1568 ?     Ss   Sep03 0:07 init
+root        2  0.0  0.0      0     0 ?     S    Sep03 0:00 kthreadd
+root        3  0.0  0.0      0     0 ?     S    Sep03 0:01 migration/0
+root        4  0.0  0.0      0     0 ?     S    Sep03 0:01 ksoftirqd/0
+root        5  0.0  0.0      0     0 ?     S    Sep03 0:00 stopper/0
+root        6  0.0  0.0      0     0 ?     S    Sep03 0:00 watchdog/0
+root        7  0.0  0.0      0     0 ?     S    Sep03 0:00 migration/1
+root        8  0.0  0.0      0     0 ?     S    Sep03 0:00 stopper/1
+root        9  0.0  0.0      0     0 ?     S    Sep03 0:00 ksoftirqd/1
+...
+lb87789  5645  0.0  0.3 133576 30096 ?     S    Sep03 0:29 Xvnc
+root     5655  0.0  0.0 219344  1576 ?     Sl   Sep03 0:00 xrdp-chansrv
+lb87789  5657  0.0  0.0  12672   748 ?     S    Sep03 0:00 ck-xinit-sessio
+lb87789  5668  0.0  0.0  18148   652 ?     S    Sep03 0:00 dbus-launch
+lb87789  5669  0.0  0.0  30396  1552 ?     Ssl  Sep03 0:00 dbus-daemon
+lb87789  5678  0.0  0.0 251368  6464 ?     Sl   Sep03 0:00 gnome-session
+lb87789  5679  0.0  0.0  57276   740 ?     Ss   Sep03 0:00 ssh-agent
+lb87789  5686  0.0  0.0 130460  4324 ?     S    Sep03 0:01 gconfd-2
+...
+lb87789  5795  0.0  0.1 544668 12960 ?     S    Sep03 0:04 clock-applet
+lb87789  5799  0.0  0.2 327860 22132 ?     S    Sep03 0:00 python
+lb87789  5806  0.0  0.0   6548   560 ?     S    Sep03 0:00 gnome-pty-helpe
+lb87789  5807  0.0  0.0 106444  1764 pts/0 Ss   Sep03 0:00 bash
+lb87789  6032  0.0  0.0  60456  3708 pts/6 S+   Sep04 0:00 ssh
+lb87789  6044  0.0  0.7 346652 63836 pts/3 S    Sep03 0:27 emacs
+lb87789 25768  9.0  0.0 108340  1064 pts/5 R+   16:22 0:00 ps
+$ _
+\end{verbatim}
+
+Ohne ins Detail auf die einzelnen Prozesse einzugehen, kann hier gesehen
+werden, dass eine Reihe von Prozessen aktiv sind.  In der zweiten Spalte wird die Prozess-ID
+angezeigt, über die referenziert werden kann.  Insbesondere gibt es die
+Möglichkeit, Prozesse sogenannte \emph{Signale} zu schicken, zum Beispiel um
+ihn zu beenden.  Das dafür benötigte Programm heisst \textbf{kill}:
+
+\begin{verbatim}
+$ whoami
+lb87789
+$ kill 5655
+5655: Operation not permitted
+$ _
+\end{verbatim}
+
+Versucht der User lb87789 den \emph{xrdp-chansrv} zu beenden, erhält er die Meldung
+\emph{Operation not permitted}, es ist ihm also nicht erlaubt einen Prozess,
+der unter der ID \emph{root} läuft, zu beenden.
+
+\subsection{Verkettung von Programmen}
+\label{sec:verkettung}
+
+Wenn Sie das Kommando \textbf{ps auxc} ausführen, wird es wahrscheinlich mehr
+Zeilen ausgeben, als auf einer Seite Ihres Terminals angezeigt werden können.
+Sie können den Output dieses Programmes aber weiterleiten an den sogannten
+Pager, der nach jeder Seite anhält:
+
+Soll der Output eines Programmes als Input für ein zweites Programm benutzt
+werden, kann das durch den senkrechten Strich ($|$), oder Pipe, erzielt
+werden: Führen sie den Befehl \textbf{ps auxc $|$ less} aus.  Nun können Sie
+durch Drücken der Leertaste zur nächsten Seite weiterblättern.  
+
+\section{Input Output Redirection}
+\label{sec:io}
+
+Eine weitere Aufgabe der Shell ist es Ein- und Ausgabe umzuleiten.  Dafür
+dienen die Sonderzeichen $>$, $<$ und $|$, dabei leitet $>$ die Ausgabe in
+eine Datei um, $<$ leitet die Eingabe aus einer Datei und $|$ lenkt die
+Ausgabe eines Programms in die Eingabe eines anderen.  Viele Programme
+akzeptieren als Argument einen Dateinamen, dessen Datei entsprechen bearbeitet
+wird.  Wie das Kommando \textbf{less}.  Haben Sie eine Datei README im
+aktuellen Verzeichnis, zeigt Ihnen der Befehl \textbf{less README} den
+Dateiinhalt seitenweise an.  Daneben verstehen können einige Programme auch
+die Eingabe (STDIN) bearbeiten.  Der Befehl \textbf{ps aux $|$ less} zeigt
+Ihnen die momentan laufenden Prozesse seitenweise an.
+
+\section{Umgang mit Dateien}
+\label{sec:files}
+
+In diesem Abschnitt wird kurz auf das Bearbeiten von Dateien eingegangen.
+
+\subsection{Dateien erzeugen}
+\label{sec:create}
+
+Eine schnelle und einfache Möglichkeit, eine Datei zu erzeugen, besteht in der
+Umlenkung von Programm Output.  Durch den Befehl \texttt{echo Hallo, Welt!}
+wird Output erzeugt und im Terminal angezeigt:
+
+\begin{verbatim}
+$ echo Hallo, Welt!
+Hallo, Welt!
+$ _
+\end{verbatim}
+
+Soll eine Datei \emph{hallo} erzeugt werden, die den Ausdruck \emph{Hallo,
+  Welt!} enthält, so kann der Umlenker $>$ benutzt werden:
+
+\begin{verbatim}
+$ echo Hallo, Welt! > hallo
+$ ls
+hallo
+$ _
+\end{verbatim}
+
+Soll der Inhalt dieser Datei angezeigt werden, kann der Befehl \textbf{cat}
+(von \emph{concatenate - verketten}) ausgeführt werden:
+
+\begin{verbatim}
+$ cat hallo
+Hallo, Welt!
+$ _
+\end{verbatim}
+
+Hierbei ist zu beachten, dass der Umlenker $>$ die Datei hallo erzeugt hat.
+Hätte sie schon existiert, wäre ihr Inhalt durch den Ausdruck \emph{Hallo,
+  Welt!} ersetzt worden.  Soll nun eine weitere Zeile an die Datei angehängt
+werden: 
+
+\begin{verbatim}
+$ echo Dies ist meine erste Datei >> hallo
+$ cat hallo
+Hallo, Welt!
+Dies ist meine erste Datei
+$ _
+\end{verbatim}
+
+Erzeugen wir mit Hilfe des Befehls \textbf{cat} eine zweite Datei
+
+\begin{verbatim}
+$ cat > tagebuch
+Heute habe ich gelernt, wie man einfach Dateien erzeugen
+kann.  In der Tat ist dies meine zweite Datei, die
+ich auf einem Unix System geschrieben habe.
+^D
+$ ls
+hallo     tagebuch
+$ _
+\end{verbatim}
+
+Beendet wird die Eingabe durch \^{}D (Ctrl-D).  Schauen wir uns den Inhalt
+beider Dateien noch mal an:
+
+\begin{verbatim}
+$ cat hallo tagebuch
+Hallo, Welt!
+Dies ist meine erste Datei
+Heute habe ich gelernt, wie man einfach Dateien erzeugen
+kann.  In der Tat ist dies meine zweite Datei, die
+ich auf einem Unix System geschrieben habe.
+$ _
+\end{verbatim}
+
+Der Befehl \textbf{cat} kann also dazu benutzt werden, mehrere Dateien
+aneinander zu hängen.
+
+\subsection{Verschieben von Dateien}
+\label{sec:mv}
+
+Der Befehl \textbf{mv} verschiebt Dateien oder benennt sie um:
+
+\begin{verbatim}
+$ ls
+hallo     tagebuch
+$ mv tagebuch diary
+$ ls
+diary  hallo
+$ _
+\end{verbatim}
+
+Die Datei \emph{tagebuch} ist also nach \emph{diary} umbenannt worden.
+Dateien können auch in ein anderes Verzeichnis verschoben werden:
+
+\begin{verbatim}
+$ ls
+diary  hallo
+$ mv diary /tmp
+$ ls
+hallo
+$ ls /tmp/diary
+/tmp/diary
+$ cat /tmp/diary
+Heute habe ich gelernt, wie man einfach Dateien erzeugen
+kann.  In der Tat ist dies meine zweite Datei, die
+ich auf einem Unix System geschrieben habe.
+$ _
+\end{verbatim}
+
+
+\subsection{Dateien kopieren}
+\label{sec:cp}
+
+Der Befehl \textbf{cp} kopiert Dateien:
+
+\begin{verbatim}
+$ ls
+hallo
+$ cp hallo Hallo
+$ ls
+Hallo  hallo
+$ _
+\end{verbatim}
+
+Nun existieren in dem Verzeichnis zwei Dateien selben Inhalts, die auch gleich
+lauten, nur dass die eine groß und die andere klein geschrieben ist.
+
+\begin{quote}
+  \emph{Unter Unix wird Groß- und Kleinschreibung unterschieden.}
+\end{quote}
+
+\subsection{Dateien löschen}
+\label{sec:rm}
+
+\textbf{rm} löscht Dateien:
+
+\begin{verbatim}
+$ ls /tmp/diary
+/tmp/diary
+$ rm /tmp/diary
+$ ls /tmp/diary
+ls: /tmp/diary: No such file or directory
+$ _
+\end{verbatim}
+
+\textbf{ls} quittiert unseren Versuch, eine Datei aufzulisten, die nicht mehr
+existiert mit einer Fehlermeldung.
+
+\subsection{Verzeichnisse erzeugen}
+\label{sec:mkdir}
+
+Unter Unix wird mit \textbf{mkdir} ein neues Verzeichnis erstellt:
+
+\begin{verbatim}
+$ ls
+hallo
+$ mkdir unixkurs
+$ ls
+hallo      unixkurs
+$ mv hallo unixkurs
+$ ls
+unixkurs
+$ ls unixkurs
+hallo
+$ _
+\end{verbatim}
+
+Wird dem Befehl \textbf{ls} also ein Verzeichnisname als Argument übergeben,
+so zeigt es den \emph{Inhalt} dieses Verzeichnisses an.
+
+
+\subsection{Verzeichnisse löschen}
+\label{sec:rmdir}
+
+Zum Löschen von Verzeichnissen wird der Befehl \textbf{rmdir} gebraucht:
+
+\begin{verbatim}
+$ rmdir unixkurs
+rmdir: unixkurs: Directory not empty
+$ ls
+unixkurs
+$ _
+\end{verbatim}
+
+Was ist passiert? \textbf{rmdir} verweigert seinen Dienst, da das Verzeichnis
+\emph{unixkurs} noch Dateien enthält.  Diese müssen zunächst gelöscht werden:
+
+\begin{verbatim}
+$ rm unixkurs/*
+$ rmdir unixkurs
+$ ls
+$ _
+\end{verbatim}
+
+\subsection{Dateien finden}
+\label{sec:find}
+
+\glqq Wo ist nochmal die Datei images.zip gespeichert?\grqq\   
+Diese oder ähnliche Situationen sind wohl jedem bekannt,
+hier ist das Programm \textbf{find} die Lösung:
+
+\begin{verbatim}
+$ pwd
+/home/lb87789
+$ find /usr -name images.zip
+find: `/usr/lib64/audit': Permission denied
+/usr/lib64/libreoffice/share/config/images.zip
+$ _
+\end{verbatim}
+
+Neben dem Hinweis, dass das Verzeichnis \emph{/usr/lib64/audit}
+für uns gesperrt ist, wird der komplette Pfad zu der gesuchten Datei angezeigt.
+Das Programm \textbf{find} durchsucht also ausgehend von einem Verzeichnis
+alle Unterverzeichnisse nach einem bestimmten Dateinamen.  Ist nicht genau
+bekannt, wie die gesuchte Datei heisst, können auch ein Shell Pattern als Argument
+angegeben werden:
+
+\begin{verbatim}
+$ find /usr -name "*.zip"
+find: `/usr/lib64/audit': Permission denied
+/usr/lib64/libreoffice/share/config/images_hicontrast.zip
+/usr/lib64/libreoffice/share/config/images_brand.zip
+/usr/lib64/libreoffice/share/config/wizard/web/buttons/simple.zip
+/usr/lib64/libreoffice/share/config/wizard/web/buttons/glas-green.zip
+/usr/lib64/libreoffice/share/config/wizard/web/buttons/round-white.zip
+/usr/lib64/libreoffice/share/config/wizard/web/buttons/square-yellow.zip
+/usr/lib64/libreoffice/share/config/wizard/web/buttons/round-gorilla.zip
+/usr/lib64/libreoffice/share/config/wizard/web/buttons/square-red.zip
+/usr/lib64/libreoffice/share/config/wizard/web/buttons/glas-red.zip
+/usr/lib64/libreoffice/share/config/wizard/web/buttons/square-gray.zip
+/usr/lib64/libreoffice/share/config/wizard/web/buttons/glas-blue.zip
+/usr/lib64/libreoffice/share/config/wizard/web/buttons/square-blue.zip
+/usr/lib64/libreoffice/share/config/wizard/web/buttons/square-green.zip
+/usr/lib64/libreoffice/share/config/images.zip
+/usr/lib64/libreoffice/share/config/images_tango.zip
+/usr/lib64/libreoffice/share/config/images_crystal.zip
+/usr/lib64/libreoffice/share/config/images_oxygen.zip
+$ _
+\end{verbatim}
+
+Hierbei ist zu beachten, dass das Argument in Anführungszeichen gestellt ist,
+damit es nicht von Shell interpretiert wird, bevor es an \textbf{find}
+weitergegeben wird.
+
+\section{/etc/passwd}
+
+Die Datei /etc/passwd enthält Benutzerdaten, also Informationen über alle
+registrierten Benutzer.
+
+\subsubsection*{Beispieleintrag}
+
+\begin{verbatim}
+$ getent passwd lb87789
+lb87789:x:2422:1000:Kruse, Peter, 1645, 43753:/home/lb87789:/bin/bash
+\end{verbatim}
+
+\subsubsection*{Bedeutung der Felder}
+
+\begin{description}
+\setlength{\itemsep}{0pt}
+\item[lb87789] login oder username
+\item[x] Passwort Feld (hier: shadow passwort)
+\item[2422] numerische userid
+\item[1000] numerische groupid
+\item[Kruse, Peter, 1645, 43753] wirklicher Name, Zusatzinformationen
+\item[/home/lb87789] Home Verzeichnis
+\item[/bin/bash] Shell
+\end{description}
+
+\subsection{Benutzerrechte}
+
+\subsubsection*{Output von ls}
+
+\begin{verbatim}
+# ls -l /usr/bin/passwd
+-rwsr-xr-x. 1 root root 27832 Jan 30  2014 /usr/bin/passwd
+|\ /\ /\ /|
+| V  V  V > Erweiterte Berechtigungen (ACL)
+| |  |  |
+| |  |  Other Berechtigung
+| |  V
+| |  Gruppen Berechtigung
+| V
+| Benutzer Berechtigung
+V
+Dateityp
+\end{verbatim}
+
+\subsubsection*{Bedeutung der Felder}
+
+\begin{description}
+\setlength{\itemsep}{0pt}
+\item[-rwsr-xr-x.] Berechtigung
+\item[1] Anzahl links
+\item[root] User Ownership
+\item[root] Group Ownership
+\item[27832] Größe in Bytes
+\item[Jan 30  2014] Datum der letzten Änderung
+\item[/usr/bin/passwd] Dateiname
+\end{description}
+
+\subsubsection*{Dateitypen (erste Stelle)}
+
+\begin{description}
+\setlength{\itemsep}{0pt}
+\item[-] normale Datei (Text, Programm, Library, Bild, ...)
+\item[d] Verzeichnis
+\item[s] Socket
+\item[l] symbolischer Link
+\item[p] Pipe
+\item[c] Character Datei (/dev/tty - terminal device)
+\item[b] Block Datei (/dev/sda1 - Festplatte)
+\item[D] Door (Solaris)
+\end{description}
+
+\subsubsection*{Berechtigung}
+
+\begin{description}
+\setlength{\itemsep}{0pt}
+\item[r] Leseberechtigung (Bei Verzeichnissen: Dateien anzeigen) (2., 5. und
+  8. Position) 
+\item[w] Schreibberechtigung (Bei Verzeichnissen: Dateien anlegen oder
+  löschen) (3., 6. und 9. Position)
+\item[x] Berechtigung zum Ausführen (Bei Verzeichnissen: Arbeitsverzeichnis
+  wechseln) (4., 7. und 10. Position)
+\item[s] Berechtigung zum Ausführen und Benutzerid ändern (4. Position)
+\item[s] Berechtigung zum Ausführen und Gruppenid ändern (7. Position)
+\end{description}
+
+Haben Sie eine Datei erzeugt, die nur für Sie lesbar sein soll, so erreichen
+Sie das durch das Kommando \textbf{chmod} (change mode).  Angenommen Sie haben
+eine Datei \emph{Tagebuch} erzeugt, mit folgenden Rechten:
+
+\begin{verbatim}
+$ ls -l Tagebuch
+-rw-r--r--   1 lb87789     users       45 May  2 17:53 Tagebuch
+$ _
+\end{verbatim}
+
+Für diese Datei hat der Benuter \emph{lb87789} Lese- und Schreibberechtigung,
+Benutzer der Gruppe \emph{users} dürfen diese Datei zum Lesen öffnen, ebenso
+wie alle anderen registrierten Benutzer.  Wenn Sie nun die Leseberechtigung
+der anderen entfernen möchten geben Sie folgenden Befehl ein:
+
+\begin{verbatim}
+$ chmod go-r Tagebuch
+$ ls -l Tagebuch
+-rw-------   1 lb87789     users       45 May  2 17:53 Tagebuch
+$ _
+\end{verbatim}
+
+Das Argument \emph{go-r} besteht aus drei Teilen:
+
+\begin{description}
+\setlength{\itemsep}{0pt}
+\item[go] g steht für \emph{group}, o für \emph{other}
+\item[-] steht für wegnehmen
+\item[r] steht für \emph{read} (Leseberechtigung)
+\end{description}
+
+Daneben gibt es noch folgende Möglichkeiten:
+
+\begin{description}
+\setlength{\itemsep}{0pt}
+\item[au] a steht für all und u für user
+\item[+] Hinzufügen
+\item[wx] w \emph{write} - also Schreibberechtigung und x - Berechitung zum
+  ausführen
+\end{description}
+
+Möchten Sie also der Gruppe die Leseberechtigung erteilen:
+
+\begin{verbatim}
+$ chmod g+r Tagebuch
+$ ls -l Tagebuch
+-rw-r-----   1 lb87789     users       45 May  2 17:53 Tagebuch
+$ _
+\end{verbatim}
+
+\section{GNU Utilities}
+\label{sec:utilities}
+
+Auf einem Unix System befinden sich eine Reihe von Programmen, 
+die jedes für sich eine kleine Aufgabe erfüllt und dessen Ergebnis wieder
+an andere Programme weitergeleitet werden kann.
+
+\subsection{Text Utilities}
+
+Hier sind ein paar Programme aufgelistet, die speziell zur Verarbeitung
+von Textdateien geeignet sind:
+
+\begin{description}
+\setlength{\itemsep}{0pt}
+\item[comm] vergleicht zeilenweise zwei Dateien
+\item[cut] zerteilt Zeilen in Felder und zeigt bestimmte Felder an
+\item[diff] zeigt den Unterschied zwischen zwei Dateien
+\item[fold] fügt Zeilenumbrüche ein
+\item[grep] zeigt Zeilen, in denen ein bestimmtes Pattern enthalten ist
+\item[head] zeigt die ersten Zeilen
+\item[paste] fügt Zeilen zusammen
+\item[sort] sortiert die Zeilen
+\item[tac] gibt Dateien von hinten nach vorne aus
+\item[tail] zeigt die letzten Zeilen
+\item[tr] translate - Ersetzt eine Charakter Klasse durch eine andere
+\item[uniq] löscht aufeinanderfolgende gleiche Zeilen
+\item[wc] Word count - zählt die Zeilen, Worte und Zeichen
+\end{description}
+
+Daneben gibt es auch etwas elaboriertere Programme, deren Befehl wieder aus
+einem Script bestehen kann:
+
+\begin{description}
+\setlength{\itemsep}{0pt}
+\item[sed] stream editor
+\item[awk] benannt nach dessen Autoren Aho, Weinberger und Kernighan
+\end{description}
+
+In der Tat hat die bekannte Programmiersprache Perl seine Wurzeln in der
+Kombination dieser Unix Werkzeuge.
+
+\subsubsection*{Anwendungen von sed und awk}
+
+\textbf{awk} teilt die Eingabe in \emph{Felder} und \emph{Records}.  Records
+sind dabei zunächst die Zeilen und Felder die durch Leezeichen getrennte
+Worte.  Dabei können sie natürlich auch anders definiert werden, zum Beispiel
+können Felder durch Zeilen und Records durch eine leere Zeile bestimmt sein.
+Wann immer eine Datei eine solche oder ähnliche Struktur aufweist, kann awk
+das geeignete Mittel zur Bearbeitung sein.  \textbf{sed} dagegen ist
+zeilenorientiert.  Eine häufige Anwendung besteht in dem automatischen Suchen
+und Ersetzen.  Damit lassen sich auch eine Anzahl von Dateien schnell
+bearbeiten.  So lassen sich schon mit kurzen Befehlen, sogenannten \emph{one liners},
+beeindruckende Ergebnisse erzielen\footnote{\url{http://sed.sourceforge.net/sed1line.txt}}.
+
+\subsubsection*{Reguläre Ausdrücke}
+\label{sec:regex}
+
+Eines der wohl am häufigsten genutzten Programme unter Unix ist \textbf{grep}.  Auch
+wenn mir keine offizielle Erklärung des Namens bekannt ist, so ist doch eine
+Eselsbrücke \emph{global regular expression print}.  Es extrahiert aus einer
+Datei die Zeilen, die ein bestimmtes Muster (den regulären Ausdruck)
+enthalten.  Wer kennt nicht die Situation, aus einer Anzahl von (selbst
+geschriebenen) Programmen oder Dokumentationen diejenige herauszufinden, in
+der ein bestimmtes Wort oder Satz vorkommt?  Die Syntax für den Befehl lautet:
+
+\begin{verbatim}
+grep [optionen] <pattern> [Datei ...]
+\end{verbatim}
+
+Finde alle Links in einer HTML Datei:
+
+\begin{verbatim}
+$ cd /usr/share/cups/www
+$ grep HREF index.html
+\end{verbatim}
+
+Sicher wird hier schon deutlich, dass eventuell nicht alle Links gefunden
+werden, da im HTML Code nicht unbedingt der Tag \emph{HREF} in Großbuchstaben
+geschrieben sein muss.  Die Option \emph{-i} sorgt dafür, dass \textbf{grep}
+Groß- und Kleinschreibung ignoriert:
+
+\begin{verbatim}
+grep -i HREF index.html
+\end{verbatim}
+
+Bei diesem Befehl gehe ich davon aus, dass in der Datei index.html wirklich die
+Zeichenfolge \emph{HREF} von einem Link gefolgt wird.  Würde der Befehl auf
+dieses Dokument angewendet, wären wir sicherlich enttäuscht, keine Links zu
+finden.  In HTML finden wir Links innerhalb des Tags \emph{A}, sodass wir das
+Kommando folgendermaßen abändern:
+
+\begin{verbatim}
+grep -i '<a href' index.html
+\end{verbatim}
+
+Die einfachen Anführungszeichen sind notwendig, damit die Shell das
+Leerzeichen nicht interpretiert.  Auch hier hat sich ein Fehler
+eingeschlichen: zwischen \emph{a} und \emph{href} muss nicht unbedingt nur ein
+Leerzeichen stehen, es können auch mehr sein (es kann auch ein Zeilenumbruch
+vorkommen, was hier nicht betrachtet wird).  Hier wird nun die Notwendigkeit
+von regulären Ausdrücken deutlich: 
+
+\begin{quote}
+\emph{Wenn nicht genau bekannt ist, wie die Zeichenfolge aussieht, sind
+  reguläre Ausdrücke das geeignete Hilfsmittel.}
+\end{quote}
+
+Das Zeichen \emph{*} bedeutet in regulären Ausdrücken:  eine beliebe Anzahl
+(auch Null) Vorkommnisse des vorhergehenden Musters.  Somit können wir den
+Befehl wie folgt anpassen:
+
+\begin{verbatim}
+grep -i '<a  *href' index.html
+\end{verbatim}
+
+Das \emph{vorhergehende Muster} ist in diesem Fall nur ein Leerzeichen.  Jetzt
+haben wir in Worten ausgedrückt: ein Leerzeichen gefolgt von null oder mehr
+Leerzeichen.  Soll nun aus der Datei nicht die ganzen Zeilen herausgefiltert
+werden, sondern nur die URLs, wird ein anderes Programm benötigt, das
+ebenfalls mit regulären Ausdrücken arbeitet.
+
+\textbf{sed} (\emph{stream editor}) erlaubt neben dem Herausfiltern von Zeilen
+auch das Ändern derselben.  Die Syntax lautet:
+
+\begin{verbatim}
+sed [Optionen] <Befehl> [Datei ...]
+\end{verbatim}
+
+Nehmen wir an, in der HTML Datei sind Links folgendermaßen aufgebaut:
+
+\begin{verbatim}
+text <a href="http://host/file">klick hier</a> bla bla...
+\end{verbatim}
+
+und es soll jeweils nur der \emph{http://host/file} Teil angezeigt werden, so
+heisst das \emph{finde alle Zeilen, in denen '\texttt{<a href="}' vorkommt, lösche
+  dieses und alles davor suche die nächsten An\-führ\-ungs\-striche, lösche dieses
+  und alles danach.}  Wie kann dieser Satz in einem regulären Ausdruck
+geschrieben werden?  Da nicht bekannt ist, was für ein Text vor oder nach der
+URL vorkommt, brauchen wir ein Platzhalter für irgendein Zeichen.  Dieser
+Platzhalter ist der Punkt \emph{.} - er \emph{matcht} jedes Zeichen.  Wir
+stoßen hier auf ein weiteres Problem:  Das Programm \textbf{sed} kennt die
+Option \emph{-i} nicht.  Soll nun Groß- und Kleinschreibung ignoriert werden,
+benutzen wir \emph{Charakter Klassen}, die durch eckige Klammern angegeben
+werden: der Ausdruck \emph{[aA]} matcht ein kleines oder großes \emph{a}.
+Mit diesem Wissen kann folgender Ausdruck richtig interpretiert werden:
+
+\begin{verbatim}
+sed -n 's/.*<[aA]  *[hH][rR][eE][fF]="\([^"]*\).*/\1/p' index.html
+\end{verbatim}
+
+Betrachten wir diese Zeile nochmal im einzelnen:  Die Option \emph{-n} weist
+\textbf{sed} an, nur Zeilen auszugeben, die explizit angegeben sind.  
+Zunächst sei festgehalten, dass der Ausdruck - im Gegensatz zu dem von
+\textbf{grep} - aus mehreren Teilen besteht: \texttt{s///p}  bedeutet:
+\emph{substitute} the following pattern enclosed in \textbf{//} with the pattern
+enclosed with the next \textbf{//} and \emph{print} the result.
+Danach
+kommt der um die Charakter Klassen erweiterte Ausdruck.  Die runden Klammern
+$\backslash( \backslash)$ weisen \textbf{sed} an, den in ihnen
+enthaltenen Ausdruck zu 
+\emph{merken}.  Auf den enthaltenen Text wird dann mithilfe von \emph{$\backslash$1} 
+verwiesen.
+ Der Asterisk bedeutet wieder: null oder mehr Vorkommnisse des
+vorhergehenden Patterns.  Dieses Pattern $\lbrack$\^{}\"{}$\rbrack$ besteht
+wieder aus einer 
+Charakter Klasse.  Das Caret \emph{\^ } am Anfang einer Charakter Klasse
+bedeutet \emph{alles außer} und somit 
+\emph{alles außer Anführungszeichen}.
+
+\subsection{date}
+
+Der Umgang mit Zeit- und Datumsstempeln kann mitunter so komplex werden,
+dass es einen eigenen Abschnitt verdient\footnote{\url{https://xkcd.com/2050/}}.
+Wird \textbf{date} einfach
+aufgerufen, gibt es das aktuelle Datum und Uhrzeit inklusive Zeitzoneninformation aus:
+
+\begin{verbatim}
+$ date
+Tue Oct  9 13:44:30 CEST 2018
+$ _
+\end{verbatim}
+
+Durch Angabe des Formats kann die Ausgabe beeinflusst werden.
+Soll zum Beispiel nur das Datum angezeigt werden:
+
+\begin{verbatim}
+$ date +"%d.%m.%Y"
+09.10.2018
+$ _
+\end{verbatim}
+
+Die Manpage \emph{date(1)} liefert mehr Informationen zu den möglichen Formatregeln.
+Hervorzuheben wäre hier die Ausgabe der Anzahl der Sekunden seit dem \date{1.1.1970}:
+
+\begin{verbatim}
+$ date +"%s"
+1539090500
+$ _
+\end{verbatim}
+
+\noindent
+\textbf{date} kann aber auch ein anderes Datum als das aktuelle ausgeben:
+
+\begin{verbatim}
+$ date -d tomorrow +"%d.%m.%Y"
+10.10.2018
+$ _
+\end{verbatim}
+
+\noindent
+und kennt auch Zeiträume:
+
+\begin{verbatim}
+$ date -d "today + 11 weeks" +"%d.%m.%Y"
+01.01.2019
+$ _
+\end{verbatim}
+
+\noindent
+Das Datum kann auch als die Anzahl der Sekunden seit dem \date{1.1.1970} 
+angegeben werden um es dann wieder in ein Datumsformat zu konvertieren:
+
+\begin{verbatim}
+$ date -d @1539090500
+Tue Oct  9 15:08:20 CEST 2018
+$ _
+\end{verbatim}
+
+Dabei ist die verwendete Zeitzone \emph{CEST}.  Eine andere Zeitzone kann
+durch die Umgebungsvariable \emph{TZ} eingestellt werden:
+
+\begin{verbatim}
+$ TZ=UTC date -d @0
+Thu Jan  1 00:00:00 UTC 1970
+\end{verbatim}
+
+\subsection{at, cron}
+
+Befehle zu einem bestimmten Zeitpunkt ausführen.
+
+\subsection{locale}
+
+i18n, l10n
+
+\subsection{make}
+
+Mit \textbf{make} wird die Generierung von Dateien aus Quelldateien 
+kontrolliert.
+
+\section{Editoren}
+
+In diesem Kapitel werden Texteditoren vorgestellt.
+
+\subsection{vi}
+\label{sec:vi}
+
+Warum vi?  vi (Sprich: \emph{wie ei}) ist der Standard Unix Editor, der
+faktisch auf jedem System vorhanden ist.  Konfigurationsdateien sind einfache
+Textdateien, die mit einem Editor wie dem vi bearbeitet werden können.  Er
+ist auch dann benutzbar, wenn keine grafische Oberfläche zur Verfügung steht.
+
+Der Editor vi befindet sich immer in einem von zwei Modi: Insert Modus oder
+Befehlsmodus.  Wird vi aufgerufen, befindet er sich im Befehlsmodus.
+Um vom Insert in den Befehlsmodus zu wechseln muss die Taste
+\texttt{Esc} einmal gedrückt werden.  Um in den Insertmodus zu gelangen, gibt
+es verschiedene Befehle.  Diese Befehle werden einfach über die Tastatur
+eingegeben und bestehen einfach aus Buchstaben und Zeichen.
+Hier seien nun die absolut notwendigen Kommandos
+angegeben: 
+
+\begin{description}
+\setlength{\itemsep}{0pt}
+\item[i] wechselt in den Insertmodus, danach wird alles, was getippt wird
+  an der aktuellen Cursorposition eingefügt,
+\item[a] wechselt in den Insertmodus, alles, was danach getippt wird, wird
+  nach der Cursorposition angehängt,
+\item[x] bleibt im Befehlsmodus, löscht das Zeichen unterhalb des Cursors,
+\item[dd] bleibt im Befehlsmodus, löscht die aktuelle Zeile
+\item[J] bleibt im Befehlsmodus, verbindet die aktuelle Zeile mit der
+  Nachfolgenden
+\item[ZZ] beendet vi und speichert Änderungen ab,
+\item[:q!] beendet vi, ohne Änderungen abzuspeichern,
+\end{description}
+
+\subsubsection*{Cursor Bewegung im vi}
+
+\begin{description}
+\setlength{\itemsep}{0pt}
+\item[h] ein Zeichen nach links
+\item[l] ein Zeichen nach rechts
+\item[k] eine Zeile nach oben
+\item[j] eine Zeile nach unten
+\end{description}
+
+\begin{samepage}
+\begin{verbatim}
+
+                         k
+
+                         ^
+                         |
+             h <- [Cursor position] -> l
+                         |
+                         v
+
+                         j
+
+\end{verbatim}
+\end{samepage}
+
+\subsection{GNU Emacs}
+\label{sec:emacs}
+
+Emacs ist ein weiterer Editor, der sich ebenfalls großer Beliebtheit erfreut.
+Es startet in einem eigenen Fenster und hat Menüs, die über die Maus bedient werden können.
+Daneben gibt es eine Reihe von Befehlen, die über Tastaturkürzel eingegeben werden können.
+Über das Hilfe-Menü kann das Emacs Tutorial gestartet werden, was einen guten Einstieg bietet.
+Hier seien die wichtigsten Befehle aufgelistet:
+
+\noindent
+\begin{tabular}{| l | l | l |}
+\hline
+\textbf{Was} & \textbf{Kürzel} & \textbf{Mnemo} \\ \hline
+Datei öffnen & C-x C-f & Find File \\ \hline
+Datei speichern & C-x C-s & Save \\ \hline
+Emacs beenden & C-x C-c & Exit Emacs \\ \hline
+Befehl unterbrechen & C-g & Abort \\ \hline
+Zum Anfang der Datei & M-$<$ & Beginning \\ \hline
+Ans Ende der Datei & M-$>$ & End \\ \hline
+Vorwärts suchen & C-s & Search \\ \hline
+Rückwärts suchen & C-r & Backwards \\ \hline
+Zum Anfang der Zeile & C-a & Beginning \\ \hline
+Ans Ende der Zeile & C-e & End \\ \hline
+Suchen und Ersetzen & M-\% & Replace \\ \hline
+\end{tabular}
+
+\noindent
+Weitere Tastaturkürzel sind in der praktischen 
+GNU Emacs Reference Card\footnote{\url{https://www.gnu.org/software/emacs/refcards/pdf/refcard.pdf}} aufgeführt.
+
+\subsubsection*{Org-mode}
+Der Org-Mode ist eine Emacs-Anwendung, mit dem auch die
+Prinzipien des Getting Things Done (GTD)\footnote{\url{https://en.wikipedia.org/wiki/Getting\_Things\_Done}}
+umgesetzt werden können.  Dieser Trend hat sicherlich zu einer noch höheren Popularität von Emacs geführt.
+Es gibt Benutzer, die Emacs allein wegen Org-Mode verwenden.
+In diesem Abschnitt soll aber auf die einfache Listefunktionalität von Org-mode eingegangen werden.
+Andere Funktionalitäten sind in dem Org Manual\footnote{\url{https://orgmode.org/manual/}} beschrieben.
+Wenn Sie eine Datei mit der Endung \emph{.org} öffnen, wird automatisch der Org-Mode aktiviert.
+Nun können Sie eine einfache Liste eingeben:
+
+\begin{verbatim}
+* Checklisten
+** Vor dem Urlaub
+*** Abwesenheitsagent aktivieren
+*** Ablaufdatum des Passworts überprüfen
+*** Status-Mail ans Projekt schicken
+** Passwort ändern
+*** Portal
+*** Notes
+*** Control-M
+*** HPQC
+*** Mainframe
+\end{verbatim}
+
+\noindent
+Platzieren Sie nun den Cursor an die oberste Zeile und drücken die TAB-Taste:
+
+\begin{verbatim}
+* Checklisten...
+\end{verbatim}
+
+\noindent
+die komplette Liste versteckt sich nun!  Drücken Sie die TAB-Taste erneut:
+
+\begin{verbatim}
+* Checklisten
+** Vor dem Urlaub...
+** Passwort ändern...
+\end{verbatim}
+
+\noindent
+und die erste Ebene wird angezeigt.  Platzieren Sie nun den Cursor auf die zweite Zeile
+und drücken TAB:
+
+\begin{verbatim}
+* Checklisten
+** Vor dem Urlaub
+*** Abwesenheitsagent aktivieren
+*** Ablaufdatum des Passworts überprüfen
+*** Status-Mail ans Projekt schicken
+** Passwort ändern...
+\end{verbatim}
+
+\noindent
+und nur diese eine Unterliste wird angezeigt.
+Das sieht aber freilich noch nicht nach Checklisten aus.
+Daher passen wir die Liste etwas an:
+
+\begin{verbatim}
+* Checklisten
+** Vor dem Urlaub
+    - [ ] Abwesenheitsagent aktivieren
+    - [ ] Ablaufdatum des Passworts überprüfen
+    - [ ] Status-Mail ans Projekt schicken
+** Passwort ändern
+    - [ ] Portal
+    - [ ] Notes
+    - [ ] Control-M
+    - [ ] HPQC
+    - [ ] Mainframe
+\end{verbatim}
+
+\noindent
+Nun können die einzelnen Punkte durch die Tastenkombination \emph{C-c C-c}
+markiert werden:
+
+\begin{verbatim}
+* Checklisten
+** Vor dem Urlaub
+    - [X] Abwesenheitsagent aktivieren
+    - [ ] Ablaufdatum des Passworts überprüfen
+    - [ ] Status-Mail ans Projekt schicken
+** Passwort ändern...
+\end{verbatim}
+
+\noindent
+Fügen wir an die Listenüberschrift noch ein \emph{[/]} hinzu:
+
+\begin{verbatim}
+* Checklisten
+** Vor dem Urlaub [/]
+    - [X] Abwesenheitsagent aktivieren
+    - [ ] Ablaufdatum des Passworts überprüfen
+    - [ ] Status-Mail ans Projekt schicken
+** Passwort ändern...
+\end{verbatim}
+
+\noindent
+und markieren einen zweiten Punkt als erledigt,
+so werden nun die Anzahl der erledigten und gesamten Punkte automatisch angezeigt:
+
+\begin{verbatim}
+* Checklisten
+** Vor dem Urlaub [2/3]
+    - [X] Abwesenheitsagent aktivieren
+    - [X] Ablaufdatum des Passworts überprüfen
+    - [ ] Status-Mail ans Projekt schicken
+** Passwort ändern...
+\end{verbatim}
+
+\noindent
+Dieses ist zwar nur ein kleiner Teil der Möglichkeiten des Org-Mode,
+aber dafür einer, der schon einen praktischen Nutzen hat.
+
+\subsection{Weitere Editoren}
+
+Neben \emph{vi} und \emph{emacs} gibt es noch einfacherer Editoren wie \emph{nano}.  \emph{Nano} startet
+in der Konsole.  Ein einfacher grafischer Editor ist \emph{gedit}.
+
+\section{Shell Scripting}
+\label{sec:scripting}
+
+In einem Shell Script können mehrere Befehle zusammengefasst werden.
+Dabei müssen Ergebnisprüfungen, die sonst ein Mensch durchführt,
+nun programmatisch erledigt werden.
+Fangen wir mit dem typischen Beispiel \emph{Hallo, Welt} an,
+das Shell Script dazu würde so aussehen:
+
+\begin{verbatim}
+#!/bin/bash
+echo Hallo, Welt!
+\end{verbatim}
+
+Die erste Zeile gibt an, dass die Datei mit \emph{/bin/bash} aufgerufen werden soll.
+Speichern wir das nun in einer Datei namens \emph{hallo}.
+Dabei muss aber darauf geachtet werden, das die Execute Permissions gesetzt sind:
+
+\begin{verbatim}
+$ ls -l hallo 
+-rwxr-xr-x. 1 lb87789 intern 30 Sep 28 12:59 hallo
+$ ./hallo 
+Hallo, Welt!
+\end{verbatim}
+
+Es muss mit der Angabe des Pfades ausgeführt werden, daher wird \emph{./} vorangestellt.
+Es bietet sich aber an für Scripte ein eigenes Verzeichnis unterhalb des Homeverzeichnisses
+anzulegen, und das dem Pfad hinzuzufügen:
+
+\begin{verbatim}
+$ mkdir ~/bin
+$ mv hallo ~/bin
+$ PATH=${PATH}:~/bin
+$ hallo
+Hallo, Welt!
+\end{verbatim}
+
+Diese Anpassung der PATH-Variable sollte dann auch in der Datei \emph{\textasciitilde/.bashrc} vorgenommen werden,
+damit sie bei zukünftigen Anmeldungen automatisch erfolgt.
+
+\subsection{Argumente}
+
+\noindent
+Argumente, mit denen ein Script aufgerufen wird, stehen in bestimmten Variablen zur Verfügung:
+
+\begin{verbatim}
+#!/bin/bash
+echo Anzahl Argumente: $#
+echo alle Argumente: $@
+echo erstes Argument: $1
+echo zweites Argument: $2
+echo drittes Argument: $3
+\end{verbatim}
+
+\noindent
+Speichern wir das beispielsweise unter dem Namen \emph{argumente} und rufen es auf:
+
+\begin{verbatim}
+$ argumente eins zwei drei vier
+alle Argumente: eins zwei drei vier
+erstes Argument: eins
+zweites Argument: zwei
+drittes Argument: drei
+$ _
+\end{verbatim}
+
+\noindent
+Nun kann auch die Bedeutung der Anführungszeichen gezeigt werden:
+
+\begin{verbatim}
+$ argumente eins "zwei zweieinhalb" drei vier
+alle Argumente: eins zwei zweieinhalb drei vier
+erstes Argument: eins
+zweites Argument: zwei zweieinhalb
+drittes Argument: drei
+\end{verbatim}
+
+Mehr soll an dieser Stelle nicht zu dem Thema Scripting gesagt werden, da es den Rahmen
+dieses Dokumentes sprengen würde.
+
+%% \subsection{Optionen}
+
+%% \subsection{Kontrollfluss}
+
+%% Wie in anderen Programmiersprachen gibt es Elemente zum Kontrollfluss auch in Shell Scripten.
+
+%% \subsubsection*{if}
+
+%% \subsubsection*{while}
+
+%% \subsubsection*{case}
+
+%% \subsubsection*{for}
+
+%% \subsection{Funktionen}
+
+\section{Vernetzt arbeiten}
+\label{sec:networking}
+
+Netzwerkfunktionalitäten waren von Anfang an ein wichtiger Bestandteil bei der Entwicklung von GNU/Linux.
+Linux ist mit und durch das Internet groß geworden.  Es verwundert nicht, dass sich als Synonym
+für Webserver-Technologien die Abkürzung LAMP (\textbf{L}inux \textbf{A}pache \textbf{M}ySQL \textbf{P}HP) durchgesetzt hat.
+In diesem Kapitel werden ein paar Programme für die Arbeit in verteilten Netzen vorgestellt.
+
+\subsection{dig}
+
+Wir sind es gewohnt, Server mit Namen anzugeben, wie \emph{bluenet.lbbw.sko.de}.
+Bevor aber eine Verbindung aufgebaut werden kann, wird dieser Name in eine Adresse
+übersetzt:
+
+\begin{verbatim}
+$ dig +short bluenet.lbbw.sko.de
+19.26.224.46
+$ _
+\end{verbatim}
+
+\noindent
+Die IP-Adresse des Servers lautet also \emph{19.26.224.46}.
+
+\subsection{ping}
+
+Mithilfe von \emph{ping} können wir herausfinden, ob der Rechner über das Netzwerk erreichbar ist:
+
+\begin{verbatim}
+$ ping bluenet
+PING bluenet.lbbw.sko.de (19.26.224.46) 56(84) bytes of data.
+64 bytes from BLUENET.LBBW... (19.26.224.46): icmp_seq=1 ttl=246 time=0.835 ms
+64 bytes from BLUENET.LBBW... (19.26.224.46): icmp_seq=2 ttl=246 time=0.613 ms
+64 bytes from BLUENET.LBBW... (19.26.224.46): icmp_seq=3 ttl=246 time=0.732 ms
+^C
+--- bluenet.lbbw.sko.de ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2549ms
+rtt min/avg/max/mdev = 0.613/0.726/0.835/0.095 ms
+$ _
+\end{verbatim}
+
+\noindent
+Sie müssen die Ausgabe mit \emph{Control-C} unterbrechen.
+Es wird angezeigt, dass auf die gesendeten Anfragen von ping geantwortet wird.
+
+\subsection{wget}
+
+Mittels \emph{wget} können wir nun die Blue.net-Startseite herunterladen:
+
+\begin{verbatim}
+$ wget -O- http://bluenet.lbbw.sko.de/
+--2018-10-05 15:05:50--  http://bluenet.lbbw.sko.de/
+Resolving bluenet.lbbw.sko.de... 19.26.224.46
+Connecting to bluenet.lbbw.sko.de|19.26.224.46|:80... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://bluenet.lbbw.sko.de/de/ [following]
+--2018-10-05 15:05:50--  https://bluenet.lbbw.sko.de/de/
+Connecting to bluenet.lbbw.sko.de|19.26.224.46|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+Saving to: “STDOUT”
+
+    [<=>                                    ] 0           --.-K/s
+
+...
+
+</div>
+</body>
+    [  <=>                                  ] 24,383       119K/s   in 0.2s    
+
+2018-10-05 15:05:50 (119 KB/s) - written to stdout [24383]
+$ _
+\end{verbatim}
+
+\subsection{OpenSSH}
+
+Für die Verwaltung und Administration von entfernten Rechnern ist Open\-SSH das entscheidende Programm.
+Damit lassen sich über das unsichere Internet verschlüsselte und sichere Verbindungen aufbauen.
+Es verwendet dabei ein Schlüsselpaar für asymmetrische Verschlüsselung.
+Möchte man eine Shell auf einem anderen Rechner öffnen wird der Rechnername zum Aufruf benötigt:
+
+\begin{samepage}
+\begin{verbatim}
+$ ssh rechnername
+|-----------------------------------------------------------------|
+| This system is for the use of authorized users only.            |
+| Individuals using this computer system without authority, or in |
+| excess of their authority, are subject to having all of their   |
+| activities on this system monitored and recorded by system      |
+| personnel.                                                      |
+|                                                                 |
+| In the course of monitoring individuals improperly using this   |
+| system, or in the course of system maintenance, the activities  |
+| of authorized users may also be monitored.                      |
+|                                                                 |
+| Anyone using this system expressly consents to such monitoring  |
+| and is advised that if such monitoring reveals possible         |
+| evidence of criminal activity, system personnel may provide the |
+| evidence of such monitoring to law enforcement officials.       |
+|-----------------------------------------------------------------|
+$ -
+\end{verbatim}
+\end{samepage}
+
+Das entfernte System begrüßt Sie also mit einem rechtlichen Hinweis
+und anschließend mit der Eingabeaufforderung.
+Wenn man diesen Text beherzigt hat, kann die Anzeige auch unterdrückt werden.
+Dafür wird eine leere Datei im Homverzeichnis angelegt:
+
+\begin{verbatim}
+$ touch ~/.hushlogin
+$ _  
+\end{verbatim}
+
+\noindent
+Melden Sie sich nun ab und wieder an, wird der Text nicht nochmal angezeigt.
+
+\subsubsection*{scp}
+
+OpenSSH enthält auch ein Programm zur sicheren Übertragung von Dateien.
+Dabei muss neben dem Rechnername auch das Zielverzeichnis angegeben werden, 
+beispielsweise:
+
+\begin{verbatim}
+$ scp foo rechnername:/tmp
+$ _
+\end{verbatim}
+
+\noindent
+Die lokale Datei \emph{foo} wird auf den entfernten Rechner nach \emph{/tmp} kopiert.
+
+\subsubsection*{Dokumentation}
+
+Die folgenden Manpages enthalten hilfreiche Informationen zu OpenSSH:
+
+\begin{itemize}
+\setlength{\itemsep}{0pt}
+\item ssh(1)
+\item scp(1)
+\item ssh\_config(5)
+\item ssh-keygen(1)
+\item sshd(8)
+\item sshd\_config(5)
+\end{itemize}
+
+\section{SQLite}
+\label{sec:sqlite}
+
+In diesem Kapitel wird gezeigt, wie mit \textbf{sqlite3} eine CSV-Datei
+in eine SQLite-Datenbank importiert werden kann.
+Angenommen die
+CSV-Datei\footnote{\url{https://covid19.who.int/WHO-COVID-19-global-data.csv}}
+hat diese Felder:
+
+\begin{verbatim}
+Date_reported,Country_code,Country,WHO_region,New_cases,
+Cumulative_cases,New_deaths,Cumulative_deaths
+\end{verbatim}
+
+\noindent
+dann erzeugt dieser Befehl eine SQLite-Datenbank in der Datei \emph{who.db}:
+
+\begin{verbatim}
+sqlite3 who.db << EOF
+create table whodata (
+   Date_reported DATE,
+   Country_code TEXT,
+   Country TEXT,
+   WHO_region TEXT,
+   New_cases INTEGER,
+   Cumulative_cases INTEGER,
+   New_deaths INTEGER,
+   Cumulative_deaths INTEGER
+);
+.mode csv whodata;
+.import WHO-COVID-19-global-data.csv whodata
+EOF
+\end{verbatim}
+
+\section{Screen}
+\label{sec:screen}
+
+Die Manpage von GNU Screen\footnote{\url{https://www.gnu.org/software/screen/}} fängt mit diesen Worten an:
+
+\begin{quote}
+Screen is a full-screen window manager that multiplexes a physical terminal between several processes, typically interactive shells.
+\end{quote}
+
+Selbst wenn Sie gut Englisch sprechen, bin ich sicher, dass Sie nur Bahnhof verstanden haben.
+Daher werde ich versuchen, Ihnen den Sinn dieses Programms auf eine andere Weise zu erklären:
+Wenn Sie sich per SSH auf einem Rechner angemeldet haben und wieder abmelden,
+dann ist Ihre dortige Shell auch beendet.  Wenn Sie sich wieder anmelden wird eine neue
+Shell gestartet.  Screen bietet nun die Möglichkeit eine Shell zu starten,
+die weiterläuft, wenn Sie sich abgemeldet haben, und an die Sie sich wieder verbinden
+können, wenn Sie sich wieder angemeldet haben.
+Dafür müssen Sie also diese Aktionen durchführen können:
+
+\begin{enumerate}
+\setlength{\itemsep}{0pt}
+\item Start von Screen
+\item Trennen (Detach)
+\item Verbinden (Attach)
+\end{enumerate}
+
+\noindent
+Beim Aufruf von \emph{screen} erscheint zunächst dieser Text:
+
+\begin{verbatim}
+GNU Screen version 4.06.02 (GNU) 23-Oct-17
+
+Copyright (c) 2015-2017 Juergen Weigert, Alexander Naumov, Amadeusz Slawinski
+Copyright (c) 2010-2014 Juergen Weigert, Sadrul Habib Chowdhury
+Copyright (c) 2008-2009 Juergen Weigert, Michael Schroeder, Micah Cowan,
+Sadrul Habib Chowdhury
+Copyright (c) 1993-2007 Juergen Weigert, Michael Schroeder
+Copyright (c) 1987 Oliver Laumann
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 3, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this program (see the file COPYING); if not, see http://www.gnu.org/licenses/,
+or contact Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+Boston, MA  02111-1301  USA.
+
+Send bugreports, fixes, enhancements, t-shirts, money, beer & pizza to
+screen-devel@gnu.org
+
+
+Capabilities:
++copy +remote-detach +power-detach +multi-attach +multi-user +font +color-16
++utf8 -rxvt -builtin-telnet
+
+                        [Press Space or Return to end.]
+\end{verbatim}
+
+\noindent
+Danach den bekannten Shellprompt, in dem Sie ganz normal Befehle ausführen können:
+
+\begin{verbatim}
+$ echo $TERM
+screen
+$ _
+\end{verbatim}
+
+\noindent
+Für die Trennung von der Screen-Session tippen Sie \textbf{C-a d}:
+
+\begin{verbatim}
+[detached from 119311.pts-0.spyd002]
+$ _
+\end{verbatim}
+
+\noindent
+Zur Überprüfung ob eine Screen-Session vorhanden ist:
+
+\begin{verbatim}
+$ screen -ls
+There is a screen on:
+	119311.pts-0.spyd002	(Detached)
+1 Socket in /tmp/uscreens/S-lb87789.
+\end{verbatim}
+
+\noindent
+und zur Wiederverbindung:
+
+\begin{verbatim}
+$ screen -R
+\end{verbatim}
+
+\section{X11}
+\label{sec:x11}
+
+Das X Window System (oder einfach X oder X Version 11; X Window System,
+Version 11; oder X11 bitte nicht: X Windows) bietet die Grundlage für
+grafische Oberflächen unter Unix.  Das Hauptprogramm ist dabei zunächst der
+X-Server, der über ein Protokoll Anfragen zum darstellen von Fenstern erhalten
+kann.  Er greift direkt auf die Grafikkarte zu, weswegen er auch eine
+eigene Konfiguration benötigt, um diese richtig anzusprechen, Treiber zu laden
+usw.  (In diesem Fall nimmt also der X-Server eine Ausnahme gegenüber anderen
+Programmen, die nur über den Kernel mit der Hardware kommunizieren.)  Eine
+grafische Oberfläche unter UNIX benötigt noch mindestens ein weiteres Programm
+nämlich den windowmanager, der zum Beispiel einen Rahmen um die Fenster
+gestaltet und es erlaubt Fenster zu minimieren, maximieren, zu verschieben,
+usw., damit vernünftig darunter gearbeitet werden kann.  Moderne grafische
+Umgebungen (Desktop Environments) wie das KDE (\underline{K}DE
+\underline{D}esktop \underline{E}nvironment) bestehen noch aus einer Reihe
+weiterer Prozesse, die zum Beispiel den Hintergrund darstellen oder die
+Bildschirmschonerfunktion erfüllen.  Ein unerlässliches Programm ist eine
+Terminal Emulation wie xterm (Standard) oder gnome-terminal,
+das eine Shell öffnet.
+
+\section{Multimedia}
+
+\subsection{Dateiendungen}
+
+Eine Liste von häufigen und weniger häufigen Dateiendungen
+
+\begin{description}
+\setlength{\itemsep}{0pt}
+\item[.au] Audio Datei
+\item[.bz2] bzip komprimierte Datei (Entkomprimieren mit \textbf{bunzip2})
+\item[.c] C source Code
+\item[.class] Java Bytecode
+\item[.dvi] \emph{device independent} von \TeX\  generierte Datei
+\item[.gz] Gnu Zip komprimiert (Entkomprimieren mit \textbf{gunzip})
+\item[.h] C header Datei
+\item[.java] Java source Code
+\item[.js] JavaScript Programm Text
+\item[.pl] Perl Command Text (ausführbar)
+\item[.png] Portable Network Graphics
+\item[.ps] Postscript (Anschauen mit \textbf{gs})
+\item[.py] Python Command Text (ausführbar)
+\item[.pyc,.pyo] Python Bytecode
+\item[.sh] Shell Script (ausführbar)
+\item[.so.*] Library
+\item[.tar] Archiv (Inhalt anschauen mit \textbf{tar tvf})
+\item[.tex] \TeX\  Quellcode
+\item[.tgz] komprimiertes tar Archiv (Inhalt anschauen mit \textbf{tar tvzf})
+\item[.wrl] VRML (world) Datei
+\end{description}
+
+Anmerkung: ausführbare Programme sind im Normalfall nicht durch eine besondere
+Datei\-en\-dung ausgezeichnit.
+
+\subsubsection*{Dateityp identifizieren}
+
+Mithile des Befehls \emph{file} kann der Dateityp identifiziert werden:
+
+\begin{verbatim}
+$ file /usr/lib64/libreoffice/share/config/images.zip
+/usr/lib64/libreoffice/share/config/images.zip: Zip archive data,
+at least v2.0 to extract
+\end{verbatim}
+
+\subsection{Bildbearbeitung}
+
+Hier werden ein paar Beispiele zur Bildbearbeitung an der Kommandozeile gegeben
+
+\subsubsection*{Screenshot}
+
+\noindent
+Einen Screenshot des eigenen gesamten Desktops aufnehmen:
+
+\begin{verbatim}
+$ import -window root desktop.png
+$ _
+\end{verbatim}
+
+\noindent
+Anzeigen des Screeshots:
+
+\begin{verbatim}
+$ display desktop.png
+\end{verbatim}
+
+\noindent
+Einen Screenshot eines einzelnen Fensters aufnehmen:
+
+\begin{verbatim}
+$ import window.png
+
+\end{verbatim}
+
+\noindent
+Der Mauszeiger ändert seine Form zu einem Kreuz.  Klicken Sie nun in ein Fenster
+wird der Screenshot von diesem Fenster aufgenommen.
+
+\subsubsection*{Bild Spiegeln}
+
+\begin{verbatim}
+$ convert -flop window.png window_flop.png
+\end{verbatim}
+
+Die Programme \emph{import}, \emph{diplay} und \emph{convert} gehören zu dem Paket ImageMagick,
+was einige Programme enthält, die jeweils eine Reihe von Optionen kennen.  Hier sei jeweils
+die Kurzbeschreibung aus der entsprechenden Manpage wiedergegeben:
+
+\begin{description}
+\setlength{\itemsep}{0pt}
+\item[animate] - animates an image or image sequence on any X server.
+\item[compare] - mathematically and visually annotate the difference between an image
+                 and its reconstruction.
+\item[composite] - overlaps one image over another.
+\item[conjure] - interprets and executes scripts written in the Magick Scripting Language (MSL).
+\item[convert] - convert between image formats as well as resize an image, blur, crop,
+                 despeckle, dither, draw on, flip, join, re-sample, and much more.
+\item[display] - displays an image or image sequence on any X server.
+\item[identify] - describes the format and characteristics of one or more image files.
+\item[import] - saves any visible window on an X server and outputs it as an image file.
+                You can capture a single window, the entire screen, or any rectangular portion of the screen.
+\item[mogrify] - resize an image, blur, crop, despeckle, dither, draw on, flip, join, re-sample, and much more.
+                 Mogrify overwrites the original image file, whereas, convert(1) writes to a different image file.
+\item[montage] - create  a  composite image by combining several separate images. The images are tiled on the composite image
+                 optionally adorned with a border, frame, image name, and more.
+\item[stream] - a lightweight tool to stream one or more pixel components of the image or portion of the image to your choice
+                of storage formats.
+\end{description}
+
+
+\section{Archivierung}
+
+Das meist benutzte Programm zur Archivierung von Dateien ist \textbf{tar} (von
+\underline{t}ape \underline{ar}chive).  Haben Sie ein solches tar Archiv zur
+Verfügung (meistens durch die Dateiendung .tar zu erkennen) können Sie den
+Inhalt durch Ausführen des Kommandos \emph{tar tvf $<$archiv$>$.tar} anschauen.
+Dort sehen sie, welche Verzeichnisse angelegt würden, wenn Sie es mittels
+\emph{tar xvf $<$archiv$>$.tar} auspacken.  Mittels \emph{tar $<$archiv$>$.tar
+  $<$verzeichnis$>$} erzeugen Sie ein tar Archiv aus allen unter
+$<$verzeichnis$>$ 
+befindlichen Dateien.  Dabei haben die Buchstaben \emph{cxtvf} folgende
+Bedeutung: 
+
+\begin{description}
+\setlength{\itemsep}{0pt}
+\item[c] create - erzeuge Archiv
+\item[t] table of contents - zeige Inhalt
+\item[x] extract - entpacke Archiv
+\item[v] verbose - zeige an, welche Dateien bearbeitet werden
+\item[f $<$datei$>$] file - benutze das tar Archiv $<$datei$>$
+\end{description}
+
+tar Archive sind nur eine Aneinanderfügung von Dateiinhalten und nicht
+komprimiert, deshalb ist es üblich, diese durch ein Komprimierungsprogramm
+weiter zu verarbeiten.  Ein Standard Komprimierungsprogramm ist \emph{gzip} -
+erkennbar durch die Dateiendung .gz, daneben gibt es compress (mit der
+Dateiendung .Z) und bzip2 (Dateiendung .bz2).  Die entsprechenden Befehle zum
+entkomprimieren lauten gunzip, uncompress und bunzip2.
+
+Stehen Sie in der Verlegenheit, eine große Datei auf mehrere Disketten zu
+verteilen, kann Ihnen der Befehl \textbf{split} weiter helfen.  Er teilt eine
+Datei in Stücke, die dann die Endungen aa, ab, ac, ... zz erhalten.  Diese
+können dann mittels \textbf{cat} wieder zusammengefügt werden.
+
+\subsection{Installation von Programmen}
+\label{sec:install}
+
+Üblicherweise haben die verschiedenen UNIX Systeme ihr eigenes Paket
+Verwal\-tungs\-system.  Es erlaubt das Installieren und Deinstalliern von
+Software, und erleichtert das Update auf neue Versionen.  Diese Software liegt
+dann in einem eigenen Format vor, das neben den eigentlichen Dateien auch
+Informationen über Abhängigkeiten und Aktionen, die vor und nach der
+Installation durchgeführt werden, enthalten.
+
+\subsubsection*{rpm}
+\label{sec:rpm}
+
+Hier eine Kurzreferenz mit den wichtigsten rpm-Befehlen:
+
+\noindent
+\begin{tabular}{| l | l | l |}
+\hline
+\textbf{Was} & \textbf{Wie} & \textbf{Mnemo} \\ \hline
+Hilfe zu rpm & \texttt{rpm --help} & Help \\ \hline
+Ist ein Paket XYZ installiert? & \texttt{rpm -qa $|$ grep XYZ} & query all  \\ \hline
+Installiere ein Paket & \texttt{rpm -i foobar-1.rpm} & install  \\ \hline
+Zeige den Inhalt einer Paketdatei & \texttt{rpm -qlp foobar-1.rpm} & query list package  \\ \hline
+Entferne ein Paket & \texttt{rpm -e foobar} & erase  \\ \hline
+Welche Dateien gehören zum Paket? & \texttt{rpm -ql foobar} & query list  \\ \hline
+Zu welchem Paket gehört eine Datei? & \texttt{rpm -qf /bin/cat} & query file  \\ \hline
+Zeige Metadaten eines Pakets an & \texttt{rpm -q --info foobar} & \\ \hline
+Zeige Metadaten einer Paketdatei an & \texttt{rpm -qp --info foobar-1.rpm} & \\ \hline
+Installiere eine neue Version & \texttt{rpm -U foobar-2.rpm} & Update  \\ \hline
+Zeige Abhängigkeiten & \texttt{rpm -q --requires foobar} & Requirements \\ \hline
+Zeige Capabilities & \texttt{rpm -q --provides foobar} & Provider \\
+\hline
+\end{tabular}
+
+\section{Boot Prozess}
+\label{sec:boot}
+
+Das eigentliche Betriebssystem ist der Kernel, welches Zugriffe auf die
+Hardware steuert.  Programme, die auf die Hardware zugreifen, weisen den
+Kernel über Systemaufrufe (C-Funktionen) an.  Verschiedene Unix Systeme
+benennen den Kernel unterschiedlich, so heißt er unter Linux 
+vmlinuz\footnote{\url{https://en.wikipedia.org/wiki/Vmlinux}} oder
+unter Solars vmunix.  Der Kernel wird nach
+dem Einschalten des Computers und nach dem BIOS (Basic Input Output System)
+gestartet.  Nachdem alle Treiber geladen sind,  führt der Kernel das Programm
+/sbin/init aus, welches den weiteren Bootvorgang durchführt.
+Sind alle Scripte ausgeführt, ist der Boot
+Prozess beendet, alle konfigurierten Dienste gestartet und das System
+präsentiert einen login Prompt oder eine graphische Login-Maske.
+
+\section{Weitere Dokumentation}
+
+\begin{itemize}
+\setlength{\itemsep}{0pt}
+\item \url{http://write.flossmanuals.net/command-line/introduction/}
+\item \url{http://tiswww.case.edu/php/chet/bash/bash.html}
+\item \url{https://mywiki.wooledge.org/BashFAQ}
+\item \url{http://wiki.bash-hackers.org/}
+\item \url{https://www.oreilly.com/programming/free/}
+\item \url{http://www.pixelbeat.org/docs/coreutils-gotchas.html}
+\item \url{http://www.dkruse.de/dokumente/netzwerke/Sicher3\_Asymm\_Verschluesselung.pdf}
+\end{itemize}
+\newpage
+
+\thispagestyle{empty}
+\vspace*{\fill}
+\emph{Wenn ich sage, dass ich ein „Hacker“ bin, glauben Leute,
+dass ich etwas Schlimmes zugebe,
+dass ich mich als jemand darstelle der Sicherheit verletzt. 
+Wie ist es zu diesem Missverständnis gekommen? \\
+Als die Presse um 1980 auf Hacker aufmerksam wurde,
+fixierte sie sich auf einen kleinen Anteil dessen, was Hacking bedeutet,
+nämlich die Sicherheitsverletzungen, die einige Hacker gelegentlich vornahmen.
+Sie ignorierten alle anderen Aspekte des Hackens und verstanden unter dem 
+Begriff „Hacken“ nur die Sicherheitsverletzungen,
+nicht mehr und nicht weniger.
+Die Medien haben seither diese Definition benutzt und ignorieren alle Versuche,
+diesen Irrtum zu korrigieren mit der Folge, dass die meisten Menschen
+eine falsche Vorstellung davon haben, was wir tun und denken. \\
+Sie können helfen dieses Missverständnis aufzuheben, 
+indem Sie klar zwischen Sicherheitsverletzungen und Hacking unterscheiden,
+indem Sie den Begriff „Cracking“ für Sichereitsverletzungen benutzen.
+Leute, die das tun nennt man „Cracker“.  Einige davon sind auch „Hacker“,
+genauso wie einige davon „Golfspieler“ oder „Schachspieler“ sind,
+die meisten von ihnen sind es nicht.}
+
+\rightline{Richard Stallman, \url{https://stallman.org/articles/on-hacking.html}}
+\vspace*{\fill}
+
+
+\end{document}
